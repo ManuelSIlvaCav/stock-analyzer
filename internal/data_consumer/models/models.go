@@ -6,3 +6,11 @@ type IncomeStatement struct {
 	CalendarYear     string
 	Period           string
 }
+
+type GeneralSearch struct {
+	Symbol            string
+	Name              string
+	Currency          string
+	StockExchange     string
+	ExchangeShortName string
+}

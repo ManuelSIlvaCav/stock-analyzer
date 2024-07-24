@@ -20,7 +20,10 @@ func NewDataConsumerModule(container *container.Container, router *r.Router) *Da
 
 	routes := []r.Route{}
 
-	routes = append(routes, router.BuildRoute("GET", "/income_statement", data_consumer_handlers.IncomeStatement(container, dataConsumerRepository)))
+	routes = append(routes,
+		router.BuildRoute("GET", "/income_statement", data_consumer_handlers.IncomeStatement(container, dataConsumerRepository)),
+		router.BuildRoute("GET", "/general_search", data_consumer_handlers.GeneralSearch(container, dataConsumerRepository)),
+	)
 
 	router.SetRoutes("/financials", routes)
 

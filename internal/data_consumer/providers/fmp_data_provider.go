@@ -20,7 +20,7 @@ func NewFMPDataProvider(container *container.Container) *FMPDataProvider {
 	}
 }
 
-func (f *FMPDataProvider) GetIncomeStatement(ctx context.Context, symbol string) (data_consumer_models.IncomeStatement, error) {
+func (f *FMPDataProvider) GetIncomeStatement(ctx context.Context, symbol string, original bool) (data_consumer_models.IncomeStatement, error) {
 	fmt.Printf("Getting income statement for %s\n", symbol)
 
 	method := "GET"
@@ -75,4 +75,8 @@ func (f *FMPDataProvider) GetIncomeStatement(ctx context.Context, symbol string)
 	//fmt.Print("jsonMap", data)
 
 	return data_consumer_models.IncomeStatement{}, nil
+}
+
+func (f *FMPDataProvider) GeneralSearch(ctx context.Context, name string) (data_consumer_models.GeneralSearch, error) {
+	return data_consumer_models.GeneralSearch{}, nil
 }

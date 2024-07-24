@@ -6,5 +6,6 @@ import (
 )
 
 type FinancialDataProvider interface {
-	GetIncomeStatement(ctx context.Context, symbol string) (data_consumer_models.IncomeStatement, error)
+	GetIncomeStatement(ctx context.Context, symbol string, original bool) (data_consumer_models.IncomeStatement, error)
+	GeneralSearch(ctx context.Context, name string) (data_consumer_models.GeneralSearch, error)
 }

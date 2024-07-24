@@ -1,6 +1,8 @@
 package container
 
 import (
+	"stockanalyzer/internal/container/cache"
+	redis_provider "stockanalyzer/internal/container/cache/redis"
 	"stockanalyzer/internal/container/config"
 	"stockanalyzer/internal/container/postgres"
 )
@@ -8,6 +10,7 @@ import (
 type Container struct {
 	PostgresSQL postgres.PostgresSQL
 	Config      *config.Config
+	Cache       cache.Cache
 }
 
 func NewContainer() *Container {
@@ -15,6 +18,7 @@ func NewContainer() *Container {
 
 	return &Container{
 		PostgresSQL: postgres.NewPostgresSQL(config.Postgres),
+		Cache:       redis_provider.NewRedisProvider(config.Redis),
 		Config:      config,
 	}
 }
