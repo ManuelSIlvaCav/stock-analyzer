@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   go-server:
-    build: .
+    build:
+      context: ./server
     container_name: stock-analyzer-server
     hostname: stock-analyzer-server
     env_file:
@@ -19,7 +20,7 @@ services:
         condition: on-failure
 
     volumes:
-      - ./:/app
+      - ./server:/app
       - $HOME/.aws/credentials:/home/app/.aws/credentials:ro # for aws credentials
 
   postgresdb:

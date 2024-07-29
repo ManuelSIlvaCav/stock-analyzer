@@ -2,9 +2,11 @@ package data_consumer_repository
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"stockanalyzer/internal/container"
 	"stockanalyzer/internal/container/postgres/stock_analyzer_pg"
+	data_consumer_models "stockanalyzer/internal/data_consumer/models"
 	data_consumer_providers "stockanalyzer/internal/data_consumer/providers"
 )
 
@@ -37,14 +39,30 @@ func NewDataConsumerRepository(container *container.Container,
 	}
 }
 
-func (r *DataConsumerRepository) GetIncomeStatement(ctx context.Context, symbol string) error {
-	data, err := r.provider.GetIncomeStatement(ctx, symbol, true)
+func (r *DataConsumerRepository) GetIncomeStatement(ctx context.Context, symbol string) ([]data_consumer_models.IncomeStatement, error) {
+	data, err := r.provider.GetIncomeStatement(ctx, symbol, false)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	fmt.Println("Income statement retrieved", data)
-	return nil
+	incomeStatementData := []data_consumer_models.IncomeStatement{}
+	_ = json.Unmarshal(data, &incomeStatementData)
+
+	fmt.Println("Income statement retrieved", incomeStatementData)
+	return incomeStatementData, nil
+}
+
+func (r *DataConsumerRepository) GetIncomeStatementAsReported(ctx context.Context, symbol string) ([]map[string]interface{}, error) {
+	data, err := r.provider.GetIncomeStatement(ctx, symbol, true)
+	if err != nil {
+		return nil, err
+	}
+
+	incomeStatementData := []map[string]interface{}{}
+	_ = json.Unmarshal(data, &incomeStatementData)
+
+	fmt.Println("Income statement retrieved", incomeStatementData)
+	return incomeStatementData, nil
 }
 
 func (r *DataConsumerRepository) SearchName(ctx context.Context, name string) error {
@@ -71,5 +89,15 @@ func (r *DataConsumerRepository) SearchName(ctx context.Context, name string) er
 
 	fmt.Println("Data retrieved from cache", cacheResult)
 
+	return nil
+}
+
+func (r *DataConsumerRepository) IncomeStatement(ctx context.Context, symbol string) error {
+	data, err := r.provider.GetIncomeStatement(ctx, symbol, true)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("Income statement retrieved", data)
 	return nil
 }
