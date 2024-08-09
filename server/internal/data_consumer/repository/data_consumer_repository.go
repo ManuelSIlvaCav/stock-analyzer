@@ -39,20 +39,24 @@ func NewDataConsumerRepository(container *container.Container,
 	}
 }
 
-func (r *DataConsumerRepository) GetIncomeStatement(ctx context.Context, symbol string) ([]data_consumer_models.IncomeStatement, error) {
+func (r *DataConsumerRepository) GetIncomeStatement(
+	ctx context.Context,
+	symbol string) ([]data_consumer_models.IncomeStatementYear, error) {
 	data, err := r.provider.GetIncomeStatement(ctx, symbol, false)
+
 	if err != nil {
 		return nil, err
 	}
 
-	incomeStatementData := []data_consumer_models.IncomeStatement{}
+	incomeStatementData := []data_consumer_models.IncomeStatementYear{}
 	_ = json.Unmarshal(data, &incomeStatementData)
 
-	fmt.Println("Income statement retrieved", incomeStatementData)
 	return incomeStatementData, nil
 }
 
-func (r *DataConsumerRepository) GetIncomeStatementAsReported(ctx context.Context, symbol string) ([]map[string]interface{}, error) {
+func (r *DataConsumerRepository) GetIncomeStatementAsReported(
+	ctx context.Context,
+	symbol string) ([]map[string]interface{}, error) {
 	data, err := r.provider.GetIncomeStatement(ctx, symbol, true)
 	if err != nil {
 		return nil, err
@@ -61,7 +65,6 @@ func (r *DataConsumerRepository) GetIncomeStatementAsReported(ctx context.Contex
 	incomeStatementData := []map[string]interface{}{}
 	_ = json.Unmarshal(data, &incomeStatementData)
 
-	fmt.Println("Income statement retrieved", incomeStatementData)
 	return incomeStatementData, nil
 }
 
@@ -89,15 +92,5 @@ func (r *DataConsumerRepository) SearchName(ctx context.Context, name string) er
 
 	fmt.Println("Data retrieved from cache", cacheResult)
 
-	return nil
-}
-
-func (r *DataConsumerRepository) IncomeStatement(ctx context.Context, symbol string) error {
-	data, err := r.provider.GetIncomeStatement(ctx, symbol, true)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println("Income statement retrieved", data)
 	return nil
 }

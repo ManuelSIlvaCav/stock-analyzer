@@ -10,7 +10,8 @@ import (
 
 func IncomeStatement(container *container.Container, dataConsumerRepository *data_consumer_repository.DataConsumerRepository) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		data, err := dataConsumerRepository.GetIncomeStatementAsReported(c.Request().Context(), "ULTA")
+		data, err := dataConsumerRepository.GetIncomeStatement(
+			c.Request().Context(), "ULTA")
 
 		if err != nil {
 			return c.JSON(500, "Error getting income statement")

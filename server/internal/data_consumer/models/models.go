@@ -1,6 +1,6 @@
 package data_consumer_models
 
-type IncomeStatement struct {
+type IncomeStatementYear struct {
 	Date                           string  `json:"date"`
 	Symbol                         string  `json:"symbol"`
 	ReportedCurrency               string  `json:"reportedCurrency"`
